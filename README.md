@@ -1,10 +1,24 @@
 # android-use
 
-Android-use for coding agents. Give Claude Code, Codex, Cursor or any agent with a shell a disposable Android device it can see, tap, type on, screenshot and read logs from, then watch or take over in your browser.
+Android-use for coding agents. Give Claude Code, Codex, Cursor, Gemini CLI or any agent with a shell a disposable Android device it can see, tap, type on, screenshot and read logs from, then watch or take over in your browser.
 
 ## Install
 
-Copy [`SKILL.md`](SKILL.md) to `.claude/skills/android-use/SKILL.md` for Claude Code, or into your agent's skill directory. The trial needs no account:
+Any agent that supports skills, via the [skills CLI](https://skills.sh):
+
+```sh
+npx skills add ramus-dev/android-use
+```
+
+Claude Code, by hand: copy [`skills/android-use/SKILL.md`](skills/android-use/SKILL.md) to `.claude/skills/android-use/SKILL.md`.
+
+Gemini CLI, as an extension (bundles the skill and the Ramus MCP server):
+
+```sh
+gemini extensions install https://github.com/ramus-dev/android-use
+```
+
+The trial needs no account:
 
 ```sh
 npx ramus-cli trial

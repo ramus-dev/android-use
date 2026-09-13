@@ -1,0 +1,21 @@
+{
+	"name": "android-use",
+	"version": "0.1.12",
+	"settings": [
+		{
+			"name": "Ramus API key",
+			"description": "Create one at https://ramus.dev/settings. Optional: without it the skill uses a 60-minute CLI trial.",
+			"envVar": "RAMUS_API_KEY",
+			"sensitive": true
+		}
+	],
+	"mcpServers": {
+		"ramus": {
+			"httpUrl": "https://api.ramus.dev/api/mcp",
+			"headers": {
+				"Authorization": "Bearer $RAMUS_API_KEY"
+			},
+			"timeout": 120000
+		}
+	}
+}
