@@ -1,15 +1,19 @@
-# Ramus skill for coding agents
+# android-use
 
-Give Claude Code, Codex, Cursor or any agent with a shell a disposable Android emulator it can drive: start a session, read the UI tree, tap, type, screenshot, read logcat, and hand you a browser link to watch or take over.
+Android-use for coding agents. Give Claude Code, Codex, Cursor or any agent with a shell a disposable Android device it can see, tap, type on, screenshot and read logs from, then watch or take over in your browser.
 
 ## Install
 
-Copy [`SKILL.md`](SKILL.md) to `.claude/skills/ramus/SKILL.md` for Claude Code, or into your agent's skill directory. The CLI trial needs no account:
+Copy [`SKILL.md`](SKILL.md) to `.claude/skills/android-use/SKILL.md` for Claude Code, or into your agent's skill directory. The trial needs no account:
 
 ```sh
 npx ramus-cli trial
 npx ramus-cli session start --apk app-debug.apk --wait
 ```
+
+## How it works
+
+The device is a real Android emulator running stock Google images on the [Ramus](https://ramus.dev) fleet, streamed over WebRTC. The skill teaches the agent the observe, act, verify loop: read a snapshot of the UI tree, act on a referenced element, then check the result before moving on.
 
 ## Links
 
@@ -18,6 +22,6 @@ npx ramus-cli session start --apk app-debug.apk --wait
 - MCP endpoint (Streamable HTTP, API key): https://api.ramus.dev/api/mcp
 - CLI on npm: https://www.npmjs.com/package/ramus-cli
 
-Ramus runs stock Android images on its own fleet, streams them over WebRTC, and is free during alpha. Android only.
+Android only. Free during alpha.
 
 `SKILL.md` is generated from the Ramus product contracts; the canonical copy is served at https://ramus.dev/skill.md.
