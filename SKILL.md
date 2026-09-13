@@ -45,8 +45,10 @@ Commands act on the last session; pass `--session <id>` to target another.
 
 ## Drive the app: observe, act, verify
 
-1. **Observe.** `ramus snapshot --find "label"` returns matching elements
-   with a `ref` and a `gen`. Prefer clickable elements. Labels can be in
+1. **Observe.** `ramus snapshot` returns the whole UI tree; use it for the
+   first look at a screen. Once you know what you want, `ramus snapshot
+   --find "label"` returns just the matching elements. Each element carries
+   a `ref` and a `gen`. Prefer clickable elements. Labels can be in
    `contentDesc` rather than `text`.
 2. **Act** with the values you just read: `ramus tap <ref> --gen <gen>`.
    Add `--expect "text"` or `--expect-gone "text"` so the tap verifies its
