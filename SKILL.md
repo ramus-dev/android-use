@@ -1,103 +1,124 @@
 ---
-name: ramus
-description: Drive Ramus Android emulator sessions to verify APKs, PR previews, and app flows, or inspect changes during a Ramus development session.
+name: android-use
+description: Runs an Android APK, demo app or GitHub pull request build on a disposable emulator the agent can see, tap, type on, screenshot and read logs from, with a browser link for a person to watch or take over. Use when asked to test, verify, reproduce or demo an Android app, APK or pull request, when a task needs a real Android device or emulator, or when iterating on an Expo, React Native, Flutter or Gradle app with hot reload.
 allowed-tools: Bash(ramus:*), Bash(npx ramus-cli:*)
 ---
 
-# Verify Android apps with Ramus
+# Android-use with Ramus
 
-Use `ramus` (or `npx ramus-cli`, Node.js 22+) for live device verification.
-Read [the agent reference](https://ramus.dev/agents.md) for additional
-commands and current interface boundaries. Run unit-testable logic with the
-project's test suite; build APKs with its own tooling.
+`ramus` (or `npx ramus-cli`, Node.js 22+) gives you a disposable Android
+device. Build the APK with the project's own tooling and run unit-testable
+logic with its test suite; use the device for what only a device can show.
+Command output is JSON. The full command list and current limits are in
+[the agent reference](https://ramus.dev/agents.md).
 
-## Select access and build
+## Checklist
 
-Run `ramus status` to inspect credentials, repository installation, and live
-sessions. Without credentials, `ramus trial` creates a locally stored
-60-minute sandbox key. Trials support APK/demo verification, but not PRs or
-adb/dev tunnels. For signed-in access, have the user create a key at
-https://ramus.dev/settings and set `RAMUS_API_KEY` in your environment;
-never ask for credentials in chat or put them in URLs.
+Copy this and check it off as you go:
 
-Start with one source:
+```
+- [ ] Get access: `ramus status`, then `ramus trial` or RAMUS_API_KEY
+- [ ] Start a session from an APK, demo or PR, with --wait
+- [ ] Share the watch link with the person right away
+- [ ] Drive the flow: snapshot → act with ref+gen → re-snapshot
+- [ ] On failure, capture logcat and a screenshot before relaunching
+- [ ] Report evidence and the current watch link; end the session unless handing off
+```
 
-- `ramus session start --apk app-debug.apk --wait` for a local build.
-- `ramus session start --demo --wait` to try the demo (`--demo waypoint` names one of the demo apps; `ramus session start --help` lists them).
-- `ramus session start --pr owner/repo#123 --wait` for a ready PR build.
+## Get a device
 
-PRs require signed-in GitHub access and the repository's Ramus GitHub App
-installation. If missing, `ramus install` provides a URL for the human to
-complete setup; `ramus install --wait` polls for completion. APK/demo use
-does not require GitHub setup.
+1. `ramus status` shows credentials, GitHub installation and live sessions.
+2. No credentials? `ramus trial` stores a 60-minute sandbox key. Trials
+   run APKs and demos, not PRs, adb or the dev loop. For full access the
+   person creates a key at https://ramus.dev/settings and sets
+   `RAMUS_API_KEY`. Never ask for credentials in chat or put them in URLs.
+3. Start from exactly one source:
+   - `ramus session start --apk app-debug.apk --wait` for a local build.
+   - `ramus session start --demo --wait` for the sample app
+     (`--demo <name>`; `ramus session start --help` lists names).
+   - `ramus session start --pr owner/repo#123 --wait` for a ready PR build.
+     PRs need a signed-in key and the Ramus GitHub App on the repository;
+     `ramus install` prints the setup URL for the person and
+     `ramus install --wait` polls until it is done.
 
-Share the returned `watchUrl` immediately and repeat the current link in
-your final report. Anyone with it can watch and control the app without an account;
-while valid it can offer a fresh launch after the old session ends, subject
-to relaunch limits, capacity, and the app or build remaining available.
-Fresh launches do not restore previous device state. If the link is absent,
-use `ramus session share` while live. Minting a link replaces and revokes the
-previous one, including the original watch URL; share the replacement.
-Do not post control links publicly. `session share --revoke` revokes the
-session's link; ending the session does not.
+Commands act on the last session; pass `--session <id>` to target another.
 
-Commands default to the last session; use `--session <id>` when needed.
+## Drive the app: observe, act, verify
 
-## Observe → act → verify
+1. **Observe.** `ramus snapshot --find "label"` returns matching elements
+   with a `ref` and a `gen`. Prefer clickable elements. Labels can be in
+   `contentDesc` rather than `text`.
+2. **Act** with the values you just read: `ramus tap <ref> --gen <gen>`.
+   Add `--expect "text"` or `--expect-gone "text"` so the tap verifies its
+   own result.
+3. **Verify** by observing again before the next action. Every accepted
+   action and every new snapshot invalidates old refs. On `stale_ref`,
+   resolve the target again. Never invent a ref or a gen, and never queue
+   a chain of taps from one snapshot.
 
-1. Read `ramus snapshot`, preferably `--find "label"` for a known target.
-   Use the returned `ref` and `gen` together; choose clickable elements.
-   Labels may be in `contentDesc`, not just `text`.
-2. Act with `ramus tap <ref> --gen <gen>`, substituting actual values from
-   that observation. Add `--expect "result"` or `--expect-gone "old text"`
-   to verify the tap's outcome.
-3. Re-observe before deciding the next action. Accepted actions and later
-   snapshots invalidate refs. On `stale_ref`, resolve the target again;
-   never guess a generation or script a chain of invented refs.
+Text: `ramus type "hello" --ref <ref> --gen <gen>` focuses the field,
+replaces its contents and reads it back; check `verified`. `--submit`
+presses Enter, `--no-verify` skips read-back. Plain `ramus type` needs a
+focused field.
 
-For text entry, `ramus type "hello" --ref <ref> --gen <gen>` focuses the
-field, replaces its contents, and attempts read-back verification. Check
-`verified`; read-back can be unavailable. `--submit` presses Enter and
-`--no-verify` skips read-back. Plain `type` requires focus first.
+Waiting: after navigation use `ramus wait --text "Welcome"`,
+`--gone "Loading"` or `--stable`. Stable means two matching snapshots, not
+that the app is finished. `wait --text` returns refs and a gen you can act
+on until the next observation or action.
 
-After navigation, use `ramus wait --stable`, `--text "Welcome"`, or
-`--gone "Loading"`. Stability is two matching snapshots, not proof of app
-completion. `wait --text` supplies matching refs and a generation you can
-use until another observation/action supersedes them.
+Other moves: `ramus swipe 0.5,0.8 0.5,0.2` to scroll, `ramus press IME_HIDE`
+to close the keyboard, `ramus press BACK` (repeated BACK can exit the app),
+`ramus app launch` to bring the app back after HOME, a crash or a reinstall.
+Re-snapshot after each.
 
-- Close the keyboard with `ramus press IME_HIDE`; repeated BACK can exit
-  the app. `ramus app launch` restores the app after HOME, backing out,
-  a crash, or reinstall. Re-snapshot afterward.
-- Scroll with `ramus swipe 0.5,0.8 0.5,0.2`, then re-snapshot.
-- For an empty or incomplete tree, inspect `ramus screenshot --out screen.jpg`
-  and use normalized coordinate taps. `--include-offscreen` cannot expose
-  recycled list rows. Only override non-clickable ref rejection with
-  `--force` after visually checking the target.
-- On a crash or hang, collect `ramus logcat --limit 200` and a screenshot
-  before relaunching. Report what you observed, including where the flow
-  diverged, rather than treating an accepted input as success.
+## When the tree is not enough
 
-Finish with evidence and the watch URL. Use `ramus session end` when done,
-but leave the session running during an active human handoff.
+- Empty or incomplete tree: `ramus screenshot --out screen.jpg`, look at it,
+  then tap by normalized coordinates. `--include-offscreen` does not reveal
+  recycled list rows; scroll instead.
+- A non-clickable target: only add `--force` after checking the screenshot.
+- Crash or hang: `ramus logcat --limit 200` and a screenshot first, then
+  `ramus app launch`. Report where the flow diverged; an accepted input is
+  not a success.
 
-## Iterate locally
+## Hand off to a person
 
-For code changes, `ramus dev` detects Expo/React Native/Flutter/Gradle and
-runs local tooling against a tunneled session. It requires a signed-in key,
-local adb, and the framework SDKs. Override with `--shape` or `--app-dir`;
-`--apk` supplies a build where supported. First builds can take minutes:
-inspect `ramus dev status` and its log tail.
+- `session start` returns a `watchUrl`. Share it immediately and repeat the
+  current link in your final report. Anyone holding it can watch and
+  control the device without an account, so never post it publicly.
+- While the link is valid it can relaunch the app after the session ends,
+  subject to capacity, relaunch limits and the build still existing; a
+  relaunch starts from a fresh device.
+- `ramus session share` mints a new link and revokes the old one, including
+  the original `watchUrl`; share the replacement. `session share --revoke`
+  revokes; `session end` does not.
+- Finish with evidence (what you observed, screenshots, logcat excerpts) and
+  the link. `ramus session end` when done; leave the session running during
+  an active handoff.
 
-Expo/RN use Fast Refresh. `ramus dev reload` triggers Flutter hot reload
-(`--full` restarts) or Gradle reinstall. Observe the app after each change.
-`ramus dev stop` stops the process and tunnel, keeping the session.
-`ramus adb` alone returns a serial for `adb -s <serial>` commands.
-Avoid `adb root`, `adb unroot`, and `adb reboot`, which can break the
-session, and `adb reverse --remove-all`, which removes dev port mappings.
+## Iterate on code
 
-MCP supports device driving and demo/PR/known-URI session starts, but local
-APK upload, adb, and dev require the CLI. MCP handoff fields are `watch_url`
-and `share_url`; discover its current tools at the endpoint in the reference.
+`ramus dev` detects Expo, React Native, Flutter or Gradle and runs the
+project's tooling against a tunneled session. It needs a signed-in key,
+local adb and the framework SDKs. `--shape` and `--app-dir` override
+detection; `--apk` supplies a build where supported. First builds can take
+minutes: check `ramus dev status` and its log tail.
+
+- Expo and React Native use Fast Refresh. `ramus dev reload` hot-reloads
+  Flutter (`--full` restarts) or reinstalls a Gradle build. Observe the app
+  after every change.
+- `ramus dev stop` stops the tooling and tunnel and keeps the session.
+- `ramus adb` prints a serial for `adb -s <serial> …`. Do not run
+  `adb root`, `adb unroot`, `adb reboot` (they break the session) or
+  `adb reverse --remove-all` (it drops the dev port mappings).
+
+## MCP instead of the CLI
+
+The same tools are available over MCP at `https://api.ramus.dev/api/mcp`
+(Streamable HTTP, `Authorization: Bearer <API key>`); list them with
+`tools/list`. MCP starts demo, PR and known-URI sessions and drives the
+device; local APK upload, adb and the dev loop need the CLI. MCP handoff
+fields are `watch_url` and `share_url`.
 
 <!-- BEGIN GENERATED RAMUS CONTRACT -->
 
