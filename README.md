@@ -18,6 +18,21 @@ Gemini CLI, as an extension (bundles the skill and the Ramus MCP server):
 gemini extensions install https://github.com/ramus-dev/android-use
 ```
 
+Any MCP client (Cline, Claude Desktop, Cursor, Windsurf, VS Code), as a remote server. Streamable HTTP, no local process:
+
+```json
+{
+  "mcpServers": {
+    "ramus": {
+      "url": "https://api.ramus.dev/api/mcp",
+      "headers": { "Authorization": "Bearer <RAMUS_API_KEY>" }
+    }
+  }
+}
+```
+
+Create the key at https://ramus.dev/settings. The server exposes `android_*` tools (start a session from a demo app or pull request, snapshot the UI tree, tap, type, press, wait, screenshot, logs, share); list them with `tools/list`. Local APK upload and the dev loop need the CLI below.
+
 The trial needs no account:
 
 ```sh
