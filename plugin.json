@@ -1,0 +1,11 @@
+{
+	"$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+	"name": "ramus",
+	"version": "0.2.0",
+	"description": "Ramus gives coding agents a disposable cloud Android emulator: run an APK, demo app or GitHub pull request build, then snapshot the screen, tap, type, read logs and share a live link. Requires a Ramus account or a free CLI trial.",
+	"author": { "name": "Ramus", "email": "hello@ramus.dev", "url": "https://ramus.dev" },
+	"homepage": "https://ramus.dev/docs/agents",
+	"repository": "https://github.com/ramus-dev/android-use",
+	"license": "MIT",
+	"keywords": ["android", "android-emulator", "apk", "mobile-testing", "react-native", "expo", "flutter", "kotlin", "emulator", "ramus"]
+}

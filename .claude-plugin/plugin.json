@@ -1,0 +1,19 @@
+{
+	"name": "ramus",
+	"displayName": "Ramus: Android emulators for agents",
+	"version": "0.2.0",
+	"description": "Give Claude Code a disposable cloud Android emulator. Run an APK, demo app or GitHub pull request build, then snapshot the screen, tap, type, read logs and share a live link. Requires a Ramus account or a free CLI trial.",
+	"author": { "name": "Ramus", "email": "hello@ramus.dev", "url": "https://ramus.dev" },
+	"homepage": "https://ramus.dev/docs/agents",
+	"repository": "https://github.com/ramus-dev/android-use",
+	"license": "MIT",
+	"keywords": ["android", "android-emulator", "apk", "mobile-testing", "react-native", "expo", "flutter", "kotlin", "ramus"],
+	"userConfig": {
+		"api_key": {
+			"type": "string",
+			"title": "Ramus API key",
+			"description": "Create one at https://ramus.dev/settings. Optional: without it the android-use skill can start a 60-minute CLI trial, but the MCP tools need a key.",
+			"sensitive": true
+		}
+	}
+}

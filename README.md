@@ -1,8 +1,19 @@
-# android-use
+# Ramus android-use
 
-Android-use for coding agents. Give Claude Code, Codex, Cursor, Gemini CLI or any agent with a shell a disposable Android device it can see, tap, type on, screenshot and read logs from, then watch or take over in your browser.
+Android-use for coding agents, powered by [Ramus](https://ramus.dev). Give Claude Code, Codex, Cursor, Gemini CLI or any agent with a shell a disposable cloud Android emulator it can see, tap, type on, screenshot and read logs from, then watch or take over in your browser.
+
+This plugin connects to the Ramus hosted service. It needs a Ramus account (free during alpha) or a 60-minute CLI trial.
 
 ## Install
+
+Claude Code, as a plugin (the android-use skill plus the Ramus MCP server; you are asked for an optional API key):
+
+```
+/plugin marketplace add ramus-dev/android-use
+/plugin install ramus@ramus
+```
+
+Cursor, Codex, GitHub Copilot, Kiro and other [Agent Plugins](https://agent-plugins.org) clients: install this repository as a plugin (`plugin.json` at the root).
 
 Any agent that supports skills, via the [skills CLI](https://skills.sh):
 
@@ -51,6 +62,11 @@ The device is a real Android emulator running stock Google images on the [Ramus]
 - MCP endpoint (Streamable HTTP, API key): https://api.ramus.dev/api/mcp
 - CLI on npm: https://www.npmjs.com/package/ramus-cli
 
-Android only. Free during alpha.
+- Privacy policy: https://ramus.dev/privacy
+- Terms: https://ramus.dev/terms
+- Acceptable use: https://ramus.dev/acceptable-use
+- Support: hello@ramus.dev · Security: security@ramus.dev
+
+Android only. Free during alpha. For testing apps you build or are authorized to test.
 
 `SKILL.md` is generated from the Ramus product contracts; the canonical copy is served at https://ramus.dev/skill.md.

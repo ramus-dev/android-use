@@ -1,0 +1,20 @@
+{
+	"name": "ramus",
+	"owner": {
+		"name": "Ramus",
+		"email": "hello@ramus.dev",
+		"url": "https://ramus.dev"
+	},
+	"description": "Ramus plugins for coding agents: disposable cloud Android emulators.",
+	"plugins": [
+		{
+			"name": "ramus",
+			"source": "./",
+			"description": "Give Claude Code a disposable cloud Android emulator for APKs, demo apps and GitHub pull request builds.",
+			"category": "development",
+			"homepage": "https://ramus.dev/docs/agents",
+			"repository": "https://github.com/ramus-dev/android-use",
+			"license": "MIT"
+		}
+	]
+}

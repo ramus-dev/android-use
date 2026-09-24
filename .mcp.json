@@ -1,0 +1,11 @@
+{
+	"mcpServers": {
+		"ramus": {
+			"type": "http",
+			"url": "https://api.ramus.dev/api/mcp",
+			"headers": {
+				"Authorization": "Bearer ${user_config.api_key}"
+			}
+		}
+	}
+}
