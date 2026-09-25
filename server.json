@@ -1,0 +1,26 @@
+{
+	"$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+	"name": "dev.ramus/android",
+	"title": "Ramus Android",
+	"description": "Disposable cloud Android emulators for coding agents: run an APK or PR build, tap, type, screenshot.",
+	"websiteUrl": "https://ramus.dev/docs/agents",
+	"repository": {
+		"url": "https://github.com/ramus-dev/android-use",
+		"source": "github"
+	},
+	"version": "0.2.0",
+	"remotes": [
+		{
+			"type": "streamable-http",
+			"url": "https://api.ramus.dev/api/mcp",
+			"headers": [
+				{
+					"name": "Authorization",
+					"description": "Bearer token: \"Bearer rms_...\", a Ramus API key from https://ramus.dev/settings.",
+					"isRequired": true,
+					"isSecret": true
+				}
+			]
+		}
+	]
+}
