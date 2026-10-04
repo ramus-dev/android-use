@@ -1,6 +1,6 @@
 ---
 name: android-mcp
-description: Runs the Ramus demo app, an APK already uploaded to Ramus, or a GitHub pull request build on a disposable cloud Android emulator through the Ramus MCP tools, then reads the screen, taps, types, swipes, takes screenshots and reads device logs, with a browser link a person can open to watch or take over. Use when asked to show, test, verify, reproduce or demo something on Android, or when a task needs a real Android device.
+description: Runs an APK the person attaches, the Ramus demo app, an APK already uploaded to Ramus, or a GitHub pull request build on a disposable cloud Android emulator through Ramus's built-in tools (no terminal needed), then reads the screen, taps, types, swipes, takes screenshots and reads device logs, with a browser link a person can open to watch or take over. Use when asked to show, test, verify, reproduce or demo something on Android, or when a task needs a real Android device.
 ---
 
 # Android emulator with Ramus (MCP tools)
@@ -22,10 +22,13 @@ session starts fresh and is discarded when it ends or after 30 minutes idle.
 
 Call `android_start_session` with exactly one source:
 
+- `apk_file` for an APK the person attached to the conversation. Pass the
+  attached file itself; Ramus downloads and installs it. Use this whenever
+  the person attaches an `.apk`.
 - `demo: true` for the Ramus sample app. Use this when the person has no app
   of their own to show.
 - `apk_uri` for an APK the person already uploaded to Ramus (from the Ramus
-  website or CLI). This tool cannot upload a file from the conversation.
+  website or CLI).
 - `pr: "owner/repo#123"` for a ready pull request build. It needs the Ramus
   GitHub App on the repository; if it is missing, call
   `android_install_github_app` and give the person the returned `setup_url`.
@@ -100,6 +103,6 @@ the person asked you to test.
 
 - Android only. The emulators run x86_64 system images without Google Play,
   so some apps that need Play services or ARM-only libraries will not run.
-- Uploading a new APK, adb and hot reload need the Ramus CLI
-  (`npx ramus-cli`), which runs in a terminal or Codex, not in this chat.
+- adb and hot reload need the Ramus CLI (`npx ramus-cli`), which runs in a
+  terminal or Codex, not in this chat.
 - Details: https://ramus.dev/docs/agents and https://ramus.dev/docs/security.

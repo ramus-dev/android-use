@@ -1,9 +1,8 @@
 interface:
   display_name: "Android emulator"
-  short_description: "Run and drive a cloud Android emulator"
+  short_description: "Cloud Android emulator, no terminal needed"
   brand_color: "#177c44"
 policy:
   products:
     - CHAT
-    - CODEX
   allow_implicit_invocation: true

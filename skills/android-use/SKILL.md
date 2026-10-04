@@ -1,6 +1,6 @@
 ---
 name: android-use
-description: Runs an Android APK, demo app or GitHub pull request build on a disposable emulator the agent can see, tap, type on, screenshot and read logs from, with a browser link for a person to watch or take over. Use when asked to test, verify, reproduce or demo an Android app, APK or pull request, when a task needs a real Android device or emulator, or when iterating on an Expo, React Native, Flutter or Gradle app with hot reload.
+description: Runs an Android APK, demo app or GitHub pull request build on a disposable cloud emulator using the Ramus command-line tool in a terminal, then sees, taps, types on, screenshots and reads logs from it, with a browser link for a person to watch or take over. Use when asked to test, verify, reproduce or demo an Android app, APK or pull request from a terminal or coding agent, including uploading a local APK, adb and hot reload while iterating on an Expo, React Native, Flutter or Gradle app.
 allowed-tools: Bash(ramus:*), Bash(npx ramus-cli:*)
 ---
 
@@ -153,7 +153,8 @@ The same tools are available over MCP at `https://api.ramus.dev/api/mcp`
 (Streamable HTTP; clients with MCP OAuth connect by signing in to Ramus,
 others send `Authorization: Bearer <API key>`); list them with
 `tools/list`. MCP starts demo, PR and known-URI sessions and drives the
-device, including `android_camera_feed` and `android_mic_feed` (base64 files); local APK upload, adb and the dev loop need the CLI. MCP handoff
+device, including `android_camera_feed` and `android_mic_feed` (base64 files). In ChatGPT, an APK the person attaches goes to
+`android_start_session` as `apk_file`; elsewhere, uploading a local APK, adb and the dev loop need the CLI. MCP handoff
 fields are `watch_url` and `share_url`.
 
 <!-- BEGIN GENERATED RAMUS CONTRACT -->
