@@ -1,8 +1,8 @@
 # The CLI skill needs a shell (ramus / npx ramus-cli), so it is offered in Codex only.
-# ChatGPT uses the android-mcp skill and the Ramus MCP tools.
+# ChatGPT uses the android-mcp skill and the Ramus MCP tools; each product sees one skill.
 interface:
   display_name: "Android-use (CLI)"
-  short_description: "Drive a cloud Android emulator with the Ramus CLI"
+  short_description: "Cloud Android emulator from a terminal"
   brand_color: "#177c44"
 policy:
   products:
