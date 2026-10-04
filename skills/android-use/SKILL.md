@@ -83,6 +83,22 @@ Re-snapshot after each.
   `ramus app launch`. Report where the flow diverged; an accepted input is
   not a success.
 
+## Camera and microphone
+
+To test a QR scan, photo upload or voice feature, feed the device from a file
+(signed-in keys only; trial sessions answer `forbidden`):
+
+- `ramus camera --image qr.png` shows a PNG, JPEG or WebP (up to 8 MiB) on
+  the back camera, the only camera. It is fitted with bars and stays until
+  replaced, `ramus camera --off`, or the session ends.
+- `ramus mic --audio hello.wav [--loop]` plays a PCM WAV (up to 16 MiB) into
+  the microphone while an app records: once, or looped. `ramus mic --off`
+  stops it and leaves the camera alone.
+- `in_use` means a person is streaming their live camera or microphone from
+  the browser; theirs takes priority. `unsupported` means the host lacks it.
+- Open the app's camera or recorder, then re-snapshot or screenshot to check
+  what it saw.
+
 ## Hand off to a person
 
 - `session start` returns a `watchUrl`. Share it immediately and repeat the
@@ -134,9 +150,10 @@ minutes: check `ramus dev status` and its log tail.
 ## MCP instead of the CLI
 
 The same tools are available over MCP at `https://api.ramus.dev/api/mcp`
-(Streamable HTTP, `Authorization: Bearer <API key>`); list them with
+(Streamable HTTP; clients with MCP OAuth connect by signing in to Ramus,
+others send `Authorization: Bearer <API key>`); list them with
 `tools/list`. MCP starts demo, PR and known-URI sessions and drives the
-device; local APK upload, adb and the dev loop need the CLI. MCP handoff
+device, including `android_camera_feed` and `android_mic_feed` (base64 files); local APK upload, adb and the dev loop need the CLI. MCP handoff
 fields are `watch_url` and `share_url`.
 
 <!-- BEGIN GENERATED RAMUS CONTRACT -->
@@ -148,6 +165,7 @@ fields are `watch_url` and `share_url`.
 - Trial limits: 1 active session, 30-minute idle, 150 MB APK.
 - Signed-in APK cap: 300 MB.
 - TTL accepts seconds, minutes, hours, and days from 60 seconds through 7 days; the default is 72 hours.
+- Camera and microphone input (`camera`, `mic`, live browser media): your own sessions and share-link viewers; not trial keys or homepage demos. Images up to 8 MiB (PNG, JPEG, WebP); WAV up to 16 MiB.
 - Session start timeout: the CLI waits 180s and ends a still-starting placement by default; `--keep-on-timeout` leaves it for polling. MCP waits 120s and keeps the placement for `android_session_status`.
 
 MCP parity is additive. The shared tool contract currently exposes:
@@ -156,5 +174,7 @@ MCP parity is additive. The shared tool contract currently exposes:
 - android_press: key
 - android_snapshot: find, include_offscreen
 - android_wait_for: text, text_gone, stable, timeout_ms
+- android_camera_feed: image_base64, off
+- android_mic_feed: wav_base64, loop, off
 
 <!-- END GENERATED RAMUS CONTRACT -->

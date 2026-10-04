@@ -51,6 +51,23 @@ npx ramus-cli trial
 npx ramus-cli session start --apk app-debug.apk --wait
 ```
 
+## ChatGPT and Codex (OpenAI plugin)
+
+The same repository is the OpenAI plugin package: `plugin.json` carries the
+directory listing under `extensions.com.openai`, `mcp.json` points at the
+remote MCP server (people connect by signing in to Ramus; no API key), and
+the skills declare where they run in `skills/*/agents/openai.yaml`:
+`android-mcp` (MCP tools) in ChatGPT and Codex, `android-use` (CLI) in Codex.
+
+Build the upload for the OpenAI plugin portal ("With MCP" path):
+
+```sh
+python3 scripts/package-openai.py   # validates, then writes dist/ramus-openai-plugin.zip
+```
+
+The script checks the listing against OpenAI's limits and leaves out the
+files for other clients.
+
 ## How it works
 
 The device is a real Android emulator running stock Google images on the [Ramus](https://ramus.dev) fleet, streamed over WebRTC. The skill teaches the agent the observe, act, verify loop: read a snapshot of the UI tree, act on a referenced element, then check the result before moving on.
