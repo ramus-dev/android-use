@@ -1,11 +1,54 @@
 {
 	"$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
 	"name": "ramus",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "Ramus gives coding agents a disposable cloud Android emulator: run an APK, demo app or GitHub pull request build, then snapshot the screen, tap, type, read logs and share a live link. Requires a Ramus account or a free CLI trial.",
-	"author": { "name": "Ramus", "email": "hello@ramus.dev", "url": "https://ramus.dev" },
+	"author": {
+		"name": "Ramus",
+		"email": "hello@ramus.dev",
+		"url": "https://ramus.dev"
+	},
 	"homepage": "https://ramus.dev/docs/agents",
 	"repository": "https://github.com/ramus-dev/android-use",
 	"license": "MIT",
-	"keywords": ["android", "android-emulator", "apk", "mobile-testing", "react-native", "expo", "flutter", "kotlin", "emulator", "ramus"]
+	"keywords": [
+		"android",
+		"android-emulator",
+		"apk",
+		"mobile-testing",
+		"react-native",
+		"expo",
+		"flutter",
+		"kotlin",
+		"emulator",
+		"ramus"
+	],
+	"extensions": {
+		"com.openai": {
+			"interface": {
+				"displayName": "Ramus",
+				"shortDescription": "Cloud Android emulators",
+				"longDescription": "Ramus gives you a real Android device in the cloud. Ask it to start an emulator with the Ramus demo app, an APK already uploaded to Ramus, or the build from a GitHub pull request, then read the screen, tap, type, swipe, press keys, take screenshots and read device logs. Every session comes with a live link you can open in a browser to watch or take over the device, or to share with a teammate.\n\nIt is built for developers, QA and reviewers who want to see how an Android app behaves without installing an emulator.\n\nGood to know:\n- You need a Ramus account. You sign in with GitHub when you connect Ramus.\n- Devices are disposable. Each session starts fresh and is discarded when it ends or after 30 minutes idle.\n- Pull request previews need the Ramus GitHub App on the repository.\n- Uploading a new APK from your computer, adb and hot reload need the Ramus CLI (in Codex or a terminal).\n- Android only. Emulators run x86_64 system images without Google Play.",
+				"developerName": "OnALark LLC",
+				"category": "Developer Tools",
+				"capabilities": [
+					"Read",
+					"Write"
+				],
+				"websiteURL": "https://ramus.dev",
+				"privacyPolicyURL": "https://ramus.dev/privacy",
+				"termsOfServiceURL": "https://ramus.dev/terms",
+				"supportURL": "https://ramus.dev/docs",
+				"defaultPrompt": [
+					"Start an Android emulator with the Ramus demo app and show me a screenshot.",
+					"Open the Ramus demo app on Android, tap through its first screens and tell me what you see.",
+					"Start an Android emulator and give me a link to watch it live in my browser."
+				],
+				"brandColor": "#177c44",
+				"brandColorDark": "#7ee08e",
+				"composerIcon": "./assets/logo.png",
+				"logo": "./assets/logo.png"
+			}
+		}
+	}
 }
