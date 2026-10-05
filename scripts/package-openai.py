@@ -71,7 +71,12 @@ mcp = json.loads((ROOT / 'mcp.json').read_text())
 for name, server in mcp.get('mcpServers', {}).items():
     check(server.get('url', '').startswith('https://') and 'headers' not in server, f'mcp server {name}: https URL, no static headers')
 
-skills = sorted(p.parent for p in (ROOT / 'skills').glob('*/SKILL.md'))
+# Skills left out of the OpenAI package. android-use drives the Ramus CLI
+# (shell commands, npx, adb), which OpenAI's skill scan flags as a security risk;
+# android-mcp covers ChatGPT and Codex through the MCP tools. android-use still
+# ships to Claude Code, skills.sh and the other clients from this repo.
+OPENAI_EXCLUDED_SKILLS = {'android-use'}
+skills = sorted(p.parent for p in (ROOT / 'skills').glob('*/SKILL.md') if p.parent.name not in OPENAI_EXCLUDED_SKILLS)
 check(skills, 'at least one skill')
 names = set()
 for skill in skills:
