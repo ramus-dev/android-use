@@ -5,4 +5,5 @@ interface:
 policy:
   products:
     - CHAT
+    - CODEX
   allow_implicit_invocation: true

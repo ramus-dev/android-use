@@ -56,8 +56,10 @@ npx ramus-cli session start --apk app-debug.apk --wait
 The same repository is the OpenAI plugin package: `plugin.json` carries the
 directory listing under `extensions.com.openai`, `mcp.json` points at the
 remote MCP server (people connect by signing in to Ramus; no API key), and
-the skills declare where they run in `skills/*/agents/openai.yaml`:
-`android-mcp` (MCP tools) in ChatGPT and Codex, `android-use` (CLI) in Codex.
+the skills declare where they run in `skills/*/agents/openai.yaml`.
+The OpenAI package ships only `android-mcp` (MCP tools, ChatGPT and Codex):
+`android-use` drives the CLI through the shell, which OpenAI's skill scan
+flags, so `scripts/package-openai.py` leaves it out.
 
 Build the upload for the OpenAI plugin portal ("With MCP" path):
 
