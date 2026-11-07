@@ -59,16 +59,21 @@ remote MCP server (people connect by signing in to Ramus; no API key), and
 the skills declare where they run in `skills/*/agents/openai.yaml`.
 The OpenAI package ships only `android-mcp` (MCP tools, ChatGPT and Codex):
 `android-use` drives the CLI through the shell, which OpenAI's skill scan
-flags, so `scripts/package-openai.py` leaves it out.
+flags, so the OpenAI packaging workflow leaves it out.
 
-Build the upload for the OpenAI plugin portal ("With MCP" path):
+Maintainers can build the upload for the OpenAI plugin portal ("With MCP"
+path) using the manual [Package OpenAI plugin workflow](.github/workflows/package-openai.yml):
 
-```sh
-python3 scripts/package-openai.py   # validates, then writes dist/ramus-openai-plugin.zip
-```
+1. Open **Actions → Package OpenAI plugin → Run workflow** and choose the
+   branch or tag to package.
+2. After it succeeds, download the **ramus-openai-upload** artifact from the
+   run and unpack it.
+3. Upload the enclosed `ramus-openai-plugin.zip` to the OpenAI plugin portal.
 
-The script checks the listing against OpenAI's limits and leaves out the
-files for other clients.
+The workflow checks the listing against OpenAI's limits and packages only
+the OpenAI manifest, MCP configuration, license, logo and `android-mcp` skill.
+It runs only in GitHub Actions when a maintainer requests an upload; the
+installed plugin does not run the packaging code.
 
 ## How it works
 
