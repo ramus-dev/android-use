@@ -1,7 +1,6 @@
 ---
 name: android-use
 description: Runs an Android APK, demo app or GitHub pull request build on a disposable cloud emulator using the Ramus command-line tool in a terminal, then sees, taps, types on, screenshots and reads logs from it, with a browser link for a person to watch or take over. Use when asked to test, verify, reproduce or demo an Android app, APK or pull request from a terminal or coding agent, including uploading a local APK, adb and hot reload while iterating on an Expo, React Native, Flutter or Gradle app.
-allowed-tools: Bash(ramus:*), Bash(npx ramus-cli:*)
 ---
 
 # Android-use with Ramus
